@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dimpal Ramesh Chaudhari</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --purple: #7c3aed;
+  --purple-light: #ede9fe;
+  --pink: #db2777;
+  --pink-light: #fce7f3;
+  --teal: #0d9488;
+  --teal-light: #ccfbf1;
+  --orange: #ea580c;
+  --orange-light: #ffedd5;
+  --yellow: #d97706;
+  --yellow-light: #fef3c7;
+  --blue: #2563eb;
+  --blue-light: #dbeafe;
+  --ink: #0f172a;
+  --ink2: #334155;
+  --ink3: #64748b;
+  --line: #e2e8f0;
+  --bg: #f8fafc;
+  --white: #ffffff;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+/* LAYOUT */
+.page {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* SIDEBAR */
+aside {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 40px 28px;
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.profile-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.avatar-wrap {
+  position: relative;
+  width: 90px; height: 90px;
+}
+.avatar-wrap img {
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  border: 3px solid transparent;
+  background: linear-gradient(135deg, #7c3aed, #db2777) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+.avatar-ring-grad {
+  position: absolute; inset: -3px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #db2777, #f59e0b);
+  z-index: -1;
+}
+
+.sidebar-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.3;
+}
+.sidebar-role {
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.5px;
+}
+
+.status-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16,185,129,0.15);
+  border: 1px solid rgba(16,185,129,0.3);
+  border-radius: 100px;
+  padding: 3px 10px;
+  font-size: 11px;
+  color: #34d399;
+}
+.status-dot::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #34d399;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+
+nav { display: flex; flex-direction: column; gap: 2px; }
+.nav-link {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.nav-link .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.nav-link:hover { color: #fff; background: rgba(255,255,255,0.07); }
+.nav-link.active { color: #fff; background: rgba(124,58,237,0.3); }
+.nav-link.active .dot { background: #a78bfa; box-shadow: 0 0 6px #a78bfa; }
+
+.sidebar-links {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.sidebar-link {
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  transition: color 0.15s;
+}
+.sidebar-link:hover { color: rgba(255,255,255,0.85); }
+.sidebar-link svg { width: 13px; height: 13px; fill: currentColor; flex-shrink: 0; }
+
+/* MAIN */
+main {
+  padding: 48px 52px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+/* HERO */
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--purple-light);
+  color: var(--purple);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: 100px;
+  padding: 4px 12px;
+  margin-bottom: 18px;
+}
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, #0f172a 0%, #7c3aed 60%, #db2777 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 18px;
+}
+.hero-sub {
+  font-size: 15px;
+  color: var(--ink2);
+  max-width: 500px;
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+.hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 100px;
+  padding: 5px 14px;
+  border: 1.5px solid;
+}
+.chip-purple { background: var(--purple-light); color: var(--purple); border-color: #c4b5fd; }
+.chip-pink   { background: var(--pink-light);   color: var(--pink);   border-color: #f9a8d4; }
+.chip-teal   { background: var(--teal-light);   color: var(--teal);   border-color: #99f6e4; }
+.chip-orange { background: var(--orange-light); color: var(--orange); border-color: #fdba74; }
+
+/* SECTION */
+.sec-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.sec-icon {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.sec-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.sec-line {
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+/* SKILLS */
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+.skill-card {
+  background: var(--white);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 18px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.skill-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.07); }
+.skill-card-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.skill-tag {
+  font-size: 12.5px;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 3px 10px;
+}
+
+/* PROJECTS */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px;
+}
+.project-card {
+  background: var(--white);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 22px 22px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.proj-purple::before { background: linear-gradient(90deg, #7c3aed, #a855f7); }
+.proj-pink::before   { background: linear-gradient(90deg, #db2777, #f472b6); }
+.proj-teal::before   { background: linear-gradient(90deg, #0d9488, #34d399); }
+
+.project-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.09); }
+.project-emoji { font-size: 1.6rem; }
+.project-name { font-size: 15px; font-weight: 700; color: var(--ink); }
+.project-desc { font-size: 13px; color: var(--ink3); line-height: 1.65; flex: 1; }
+.project-stack { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+.stack-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--ink3);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 2px 7px;
+}
+
+/* CERTS */
+.cert-list { display: flex; flex-direction: column; gap: 10px; }
+.cert-card {
+  background: var(--white);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  transition: border-color 0.2s;
+}
+.cert-card:hover { border-color: #c4b5fd; }
+.cert-left { display: flex; align-items: center; gap: 12px; }
+.cert-badge {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.cert-name { font-size: 13.5px; font-weight: 500; color: var(--ink); }
+.cert-issuer-tag {
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+
+/* EDUCATION */
+.edu-card {
+  background: linear-gradient(135deg, #ede9fe 0%, #fce7f3 100%);
+  border: 1.5px solid #ddd6fe;
+  border-radius: 14px;
+  padding: 24px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+.edu-icon { font-size: 2rem; }
+.edu-degree { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.edu-college { font-size: 13px; color: var(--ink2); max-width: 400px; }
+.edu-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--purple);
+  color: white;
+  border-radius: 6px;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+/* CONTACT */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.contact-card {
+  background: var(--white);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s;
+}
+.contact-card:hover { border-color: #c4b5fd; transform: translateY(-1px); }
+.contact-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+.contact-key { font-size: 11px; color: var(--ink3); margin-bottom: 2px; font-weight: 500; }
+.contact-val { font-size: 13px; color: var(--ink); font-weight: 500; }
+.contact-val a { color: var(--purple); }
+.contact-val a:hover { text-decoration: underline; }
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--ink3);
+  font-family: 'Space Mono', monospace;
+}
+
+@media (max-width: 768px) {
+  .page { grid-template-columns: 1fr; }
+  aside { position: static; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 16px; padding: 24px 20px; }
+  nav, .sidebar-links { display: none; }
+  main { padding: 32px 20px 60px; gap: 48px; }
+  .hero h1 { font-size: 2rem; }
+  .project-grid, .skill-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .edu-card { flex-direction: column; gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="profile-area">
+      <div class="avatar-wrap">
+        <div class="avatar-ring-grad"></div>
+        <img src="data:image/jpeg;base64,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" alt="Dimpal Chaudhari">
+      </div>
+      <div>
+        <div class="sidebar-name">Dimpal Chaudhari</div>
+        <div class="sidebar-role">Data Science · Python Dev</div>
+      </div>
+      <div class="status-dot">Open to Work</div>
+    </div>
+
+    <nav>
+      <a class="nav-link active" onclick="scrollTo('about')"><span class="dot"></span>About</a>
+      <a class="nav-link" onclick="scrollTo('skills')"><span class="dot"></span>Skills</a>
+      <a class="nav-link" onclick="scrollTo('projects')"><span class="dot"></span>Projects</a>
+      <a class="nav-link" onclick="scrollTo('certs')"><span class="dot"></span>Certificates</a>
+      <a class="nav-link" onclick="scrollTo('education')"><span class="dot"></span>Education</a>
+      <a class="nav-link" onclick="scrollTo('contact')"><span class="dot"></span>Contact</a>
+    </nav>
+
+    <div class="sidebar-links">
+      <a class="sidebar-link" href="mailto:dimpalc586@gmail.com">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 2-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
+        dimpalc586@gmail.com
+      </a>
+      <a class="sidebar-link" href="https://github.com/dimpalchaudhar" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.25.8-.55v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.65-1.3-1.65-1.05-.7.1-.7.1-.7 1.15.1 1.75 1.2 1.75 1.2 1.05 1.8 2.75 1.3 3.4 1 .1-.75.4-1.3.75-1.6-2.55-.3-5.25-1.3-5.25-5.75 0-1.27.45-2.3 1.2-3.1-.12-.3-.52-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 3-.4c1.02.01 2.04.14 3 .4 2.3-1.5 3.3-1.2 3.3-1.2.62 1.6.22 2.8.1 3.1.75.8 1.2 1.83 1.2 3.1 0 4.46-2.7 5.45-5.28 5.73.42.36.78 1.1.78 2.2v3.27c0 .3.2.65.8.55C20.2 21.4 23.5 17.1 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
+        GitHub
+      </a>
+      <a class="sidebar-link" href="https://www.linkedin.com/in/dimpal-chaudhari-645967274/" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H6.5v-7H9v7zm-1.25-8.1a1.45 1.45 0 1 1 0-2.9 1.45 1.45 0 0 1 0 2.9zM18 17h-2.5v-3.4c0-2-2.5-1.85-2.5 0V17H10.5v-7H13v1.1C14.1 8.85 18 8.6 18 12.3V17z"/></svg>
+        LinkedIn
+      </a>
+      <a class="sidebar-link">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+        Pune, India
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- HERO -->
+    <div id="about">
+      <div class="hero-tag">✨ Portfolio 2025</div>
+      <h1 class="hero" style="font-size:2.5rem;font-weight:700;line-height:1.15;letter-spacing:-1px;background:linear-gradient(135deg,#0f172a 0%,#7c3aed 60%,#db2777 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:18px;">Dimpal Ramesh<br>Chaudhari</h1>
+      <p class="hero-sub">Final-year B.Tech student passionate about transforming raw data into meaningful insights. I work with Python, EDA, Power BI, and data visualisation to uncover patterns that drive decisions.</p>
+      <div class="hero-chips">
+        <span class="chip chip-purple">Python Developer</span>
+        <span class="chip chip-pink">Data Analyst</span>
+        <span class="chip chip-teal">Power BI</span>
+        <span class="chip chip-orange">Open to Work 🚀</span>
+      </div>
+    </div>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="sec-header">
+        <div class="sec-icon" style="background:#ede9fe;">🛠️</div>
+        <div class="sec-title">Skills &amp; Tools</div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="skill-grid">
+        <div class="skill-card">
+          <div class="skill-card-title" style="color:#7c3aed;">Languages</div>
+          <div class="skill-tags">
+            <span class="skill-tag" style="background:#ede9fe;color:#7c3aed;">Python</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-title" style="color:#0d9488;">Libraries</div>
+          <div class="skill-tags">
+            <span class="skill-tag" style="background:#ccfbf1;color:#0d9488;">NumPy</span>
+            <span class="skill-tag" style="background:#ccfbf1;color:#0d9488;">Pandas</span>
+            <span class="skill-tag" style="background:#ccfbf1;color:#0d9488;">Matplotlib</span>
+            <span class="skill-tag" style="background:#ccfbf1;color:#0d9488;">Seaborn</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-title" style="color:#db2777;">Analysis</div>
+          <div class="skill-tags">
+            <span class="skill-tag" style="background:#fce7f3;color:#db2777;">EDA</span>
+            <span class="skill-tag" style="background:#fce7f3;color:#db2777;">Data Preprocessing</span>
+            <span class="skill-tag" style="background:#fce7f3;color:#db2777;">Web Scraping</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-title" style="color:#d97706;">BI &amp; Visualisation</div>
+          <div class="skill-tags">
+            <span class="skill-tag" style="background:#fef3c7;color:#d97706;">Power BI</span>
+            <span class="skill-tag" style="background:#fef3c7;color:#d97706;">Dashboard Design</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-title" style="color:#2563eb;">Tools</div>
+          <div class="skill-tags">
+            <span class="skill-tag" style="background:#dbeafe;color:#2563eb;">Jupyter</span>
+            <span class="skill-tag" style="background:#dbeafe;color:#2563eb;">VS Code</span>
+            <span class="skill-tag" style="background:#dbeafe;color:#2563eb;">GitHub</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="sec-header">
+        <div class="sec-icon" style="background:#fce7f3;">🚀</div>
+        <div class="sec-title">Featured Projects</div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="project-grid">
+        <div class="project-card proj-purple">
+          <div class="project-emoji">☕</div>
+          <div class="project-name">Cafe Management System</div>
+          <p class="project-desc">Menu-driven Python application with a complete billing system — handles orders, price calculation, and receipt generation through a clean CLI.</p>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span>
+            <span class="stack-tag">OOP</span>
+            <span class="stack-tag">CLI</span>
+          </div>
+        </div>
+        <div class="project-card proj-pink">
+          <div class="project-emoji">📊</div>
+          <div class="project-name">Customer Churn Analysis</div>
+          <p class="project-desc">Interactive Power BI dashboard analysing churn patterns and KPIs. Identified key churn drivers through visual analytics for stakeholder reporting.</p>
+          <div class="project-stack">
+            <span class="stack-tag">Power BI</span>
+            <span class="stack-tag">EDA</span>
+            <span class="stack-tag">KPIs</span>
+            <span class="stack-tag">Dashboard</span>
+          </div>
+        </div>
+        <div class="project-card proj-teal">
+          <div class="project-emoji">📱</div>
+          <div class="project-name">Flipkart Mobiles Analysis</div>
+          <p class="project-desc">End-to-end web scraping and EDA project. Scraped Flipkart listings, cleaned data, and uncovered pricing trends using Pandas, Matplotlib &amp; Seaborn.</p>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span>
+            <span class="stack-tag">Web Scraping</span>
+            <span class="stack-tag">Pandas</span>
+            <span class="stack-tag">Seaborn</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTS -->
+    <section id="certs">
+      <div class="sec-header">
+        <div class="sec-icon" style="background:#fef3c7;">📜</div>
+        <div class="sec-title">Certificates</div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="cert-list">
+        <div class="cert-card">
+          <div class="cert-left">
+            <div class="cert-badge" style="background:#ede9fe;">📐</div>
+            <div class="cert-name">Fundamentals of Statistics and Visualisation in Python</div>
+          </div>
+          <span class="cert-issuer-tag" style="background:#ede9fe;color:#7c3aed;">Infosys Springboard</span>
+        </div>
+        <div class="cert-card">
+          <div class="cert-left">
+            <div class="cert-badge" style="background:#ccfbf1;">📊</div>
+            <div class="cert-name">Data Analysis with Python</div>
+          </div>
+          <span class="cert-issuer-tag" style="background:#ccfbf1;color:#0d9488;">Infosys Springboard</span>
+        </div>
+        <div class="cert-card">
+          <div class="cert-left">
+            <div class="cert-badge" style="background:#fce7f3;">🐍</div>
+            <div class="cert-name">Certified Python Developer — Basic Level</div>
+          </div>
+          <span class="cert-issuer-tag" style="background:#fce7f3;color:#db2777;">Udemy</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <div class="sec-header">
+        <div class="sec-icon" style="background:#dbeafe;">🎓</div>
+        <div class="sec-title">Education</div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="edu-card">
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <div class="edu-icon">🏛️</div>
+          <div>
+            <div class="edu-degree">B.Tech in Engineering</div>
+            <div class="edu-college">Hindi Seva Mandal Shri Sant Gadge Baba College of Engineering and Technology, Bhusawal</div>
+          </div>
+        </div>
+        <div class="edu-badge">Final Year</div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="sec-header">
+        <div class="sec-icon" style="background:#fce7f3;">🤝</div>
+        <div class="sec-title">Let's Connect</div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="contact-grid">
+        <a class="contact-card" href="mailto:dimpalc586@gmail.com">
+          <div class="contact-icon" style="background:#fce7f3;">📧</div>
+          <div>
+            <div class="contact-key">Email</div>
+            <div class="contact-val" style="color:#db2777;">dimpalc586@gmail.com</div>
+          </div>
+        </a>
+        <div class="contact-card">
+          <div class="contact-icon" style="background:#ccfbf1;">📍</div>
+          <div>
+            <div class="contact-key">Location</div>
+            <div class="contact-val">Pune, Maharashtra, India</div>
+          </div>
+        </div>
+        <a class="contact-card" href="https://github.com/dimpalchaudhar" target="_blank">
+          <div class="contact-icon" style="background:#ede9fe;">💻</div>
+          <div>
+            <div class="contact-key">GitHub</div>
+            <div class="contact-val" style="color:#7c3aed;">dimpalchaudhar</div>
+          </div>
+        </a>
+        <a class="contact-card" href="https://www.linkedin.com/in/dimpal-chaudhari-645967274/" target="_blank">
+          <div class="contact-icon" style="background:#dbeafe;">🔗</div>
+          <div>
+            <div class="contact-key">LinkedIn</div>
+            <div class="contact-val" style="color:#2563eb;">dimpal-chaudhari</div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <div class="footer">© 2025 · Dimpal Ramesh Chaudhari · Made with ❤️ in Pune</div>
+
+  </main>
+</div>
+
+<script>
+  function scrollTo(id) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+  const sections = ['about','skills','projects','certs','education','contact'];
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        const idx = sections.indexOf(e.target.id);
+        if (idx >= 0) document.querySelectorAll('.nav-link')[idx]?.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(id => { const el = document.getElementById(id); if(el) observer.observe(el); });
+</script>
+
+</body>
+</html>
